@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export default function Game({ title, genre, imgUrl }) {
   return (
     <>
@@ -6,9 +8,9 @@ export default function Game({ title, genre, imgUrl }) {
         <div className="details-overlay">
           <p className="name">{title}</p>
           <p className="genre">{genre}</p>
-          <a href="#" className="details-button">
+          <Link to={`/details/${title}`} className="details-button">
             Details
-          </a>
+          </Link>
         </div>
       </div>
     </>

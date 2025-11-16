@@ -1,9 +1,22 @@
 import logo from "/images/logo.png";
-import witcher from "/images/witcher.png";
-import ring from "/images/elden ring.png";
-import minecraft from "/images/minecraft.png";
+import { useEffect, useState } from "react";
+import func from "../utils/actionsFromServer";
+import { Link } from "react-router";
 
 export default function Home() {
+  const [games, setGames] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(true);
+
+  useEffect(() => {
+    func.getAllGames().then((result) => {
+      setGames(Object.values(result));
+
+      if (result) {
+        setIsEmpty(false);
+      }
+    });
+  }, []);
+
   return (
     <section id="welcome-world">
       <div className="welcome-message">
@@ -16,31 +29,50 @@ export default function Home() {
         <h1>Latest Games</h1>
         <div id="latest-wrap">
           <div className="home-container">
-            <div className="game">
-              <img src={witcher} alt="Elden Ring" />
-              <div className="details-overlay">
-                <p className="name">The Witcher 3</p>
-                <p className="genre">Open World</p>
-                <button className="details-button">Details</button>
-              </div>
-            </div>
-            <div className="game">
-              <img src={ring} alt="Elden Ring" />
-              <div className="details-overlay">
-                <p className="name">Elden Ring</p>
-                <p className="genre">Action RPG</p>
-                <button className="details-button">Details</button>
-              </div>
-            </div>
-            <div className="game">
-              <img src={minecraft} alt="Minecraft" />
-              <div className="details-overlay">
-                <p className="name">Minecraft</p>
-                <p className="genre">Sandbox</p>
-                <button className="details-button">Details</button>
-              </div>
-            </div>
-            {/* <p className="no-articles">No games yet</p> */}
+            {isEmpty || (
+              <>
+                <div className="game">
+                  <img src={games[0].imageUrl} alt="Elden Ring" />
+                  <div className="details-overlay">
+                    <p className="name">{games[0].title}</p>
+                    <p className="genre">{games[0].genre}</p>
+                    <Link
+                      to={`/details/${games[0].title}`}
+                      className="details-button"
+                    >
+                      Details
+                    </Link>
+                  </div>
+                </div>
+                <div className="game">
+                  <img src={games[1].imageUrl} alt="Elden Ring" />
+                  <div className="details-overlay">
+                    <p className="name">{games[1].title}</p>
+                    <p className="genre">{games[1].genre}</p>
+                    <Link
+                      to={`/details/${games[1].title}`}
+                      className="details-button"
+                    >
+                      Details
+                    </Link>
+                  </div>
+                </div>
+                <div className="game">
+                  <img src={games[2].imageUrl} alt="Elden Ring" />
+                  <div className="details-overlay">
+                    <p className="name">{games[2].title}</p>
+                    <p className="genre">{games[2].genre}</p>
+                    <Link
+                      to={`/details/${games[2].title}`}
+                      className="details-button"
+                    >
+                      Details
+                    </Link>
+                  </div>
+                </div>
+              </>
+            )}
+            {isEmpty && <p className="no-articles">No games yet</p>}
           </div>
         </div>
       </div>

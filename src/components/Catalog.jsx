@@ -1,22 +1,16 @@
 import { useEffect, useState } from "react";
 import Game from "./GameComp";
+import func from "../utils/actionsFromServer";
 
 export default function Catalog() {
   const [games, setGames] = useState({});
   const [isEmpty, setIsEmpty] = useState(true);
   useEffect(() => {
-    fetch("http://localhost:3030/jsonstore/games")
-      .then((result) => {
-        return result.json();
-      })
-      .then((data) => {
-        if (data) {
-          setIsEmpty(false);
-        }
-        setGames(data);
-      });
+    func.getAllGames().then((result) => setGames(result));
+    if (games) {
+      setIsEmpty(false);
+    }
   }, []);
-
   return (
     <>
       <section id="catalog-page">
